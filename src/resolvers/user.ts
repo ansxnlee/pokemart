@@ -24,6 +24,20 @@ class UserResponse {
 
 @Resolver()
 export class UserResolver {
+  // show connected user
+  @Query(() => User, {nullable: true})
+  async conninfo(
+    @Ctx() { req, em }: MyContext
+  ) {
+    // user is considered to be logged in if browser contains appropriate cookie
+    if (!req.session.userId) {
+      return null
+    }
+    const user = await em.findOne(User, { id: req.session.userId });
+    return user;
+  }
+
+
   // get all items
   @Query(() => [User])
   users(
@@ -121,7 +135,7 @@ export class UserResolver {
     // @types/express-session: "1.17.x" removed the key string from SessionData interface
     // they want us to explicitly declare expected types for this object
     // manually adjusted node_module to include it again as a hacky way to resolve type error
-    req.session.userId = user.id; // stores userId so we can access later
+    req.session.userId = user.id; // stores 'userId' object in redis so we can access later
     
     return { user };
   }
