@@ -19,12 +19,6 @@ const main = async () => {
   // express setup
   const app = express();
 
-  // CORS config
-  // const corsOption = {
-  //   origin: "https://studio.apollographql.com",
-  //   credentials: true
-  // }
-
   // redis client setup 
   const session = require("express-session");
   let RedisStore = require("connect-redis")(session);
@@ -32,6 +26,10 @@ const main = async () => {
   const { createClient } = require("redis");
   let redisClient = createClient({ legacyMode: true });
   redisClient.connect().catch(console.error);
+
+  // this is to get cookies to work with graphql studio in dev
+  // make sure to add 'x-forwarded-proto' header with value 'https' in studio
+  app.set('trust proxy', process.env.NODE_ENV !== 'production');
 
   // redis cookie settings
   app.use( 
@@ -42,15 +40,26 @@ const main = async () => {
         disableTouch: true, // dont refresh timer on each session interaction
       }),
       cookie: {
-        maxAge: 1000 * 60 * 60 * 24, // cookie lasts a day
-        sameSite: 'None', // csrf stuff
-        secure: !__prod__, // might cause bugs(?) if this is true in dev
+        maxAge: 1000 * 60 * 60 * 24, // cookie will last a day
+        httpOnly: true,
+        // 'none' is required for cookies to work from one site to another (might be bad in prod)
+        sameSite: "none", // this setting is related to csrf 
+        // setting to true makes requests come from a non HTTPS protocol for some reason
+        secure: true, // might cause bugs(?) if this is true in dev
       },
       saveUninitialized: false,
       secret: "secret key change this later",
       resave: false,
     })
   );
+
+  // CORS config
+  const corsOption = {
+    origin: [
+      "https://studio.apollographql.com",
+    ],
+    credentials: true
+  }
 
   // apollo graphql setup
   const apolloServer = new ApolloServer({
@@ -62,7 +71,8 @@ const main = async () => {
   });
   
   await apolloServer.start();
-  apolloServer.applyMiddleware({ app, cors: {credentials: true, origin: true} });
+
+  apolloServer.applyMiddleware({ app, cors: corsOption });
 
   const PORT = process.env.PORT || 4000
 
