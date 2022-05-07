@@ -29,7 +29,7 @@ const main = async () => {
 
   // this is to get cookies to work with graphql studio in dev
   // make sure to add 'x-forwarded-proto' header with value 'https' in studio
-  app.set('trust proxy', process.env.NODE_ENV !== 'production');
+  app.set('trust proxy', !__prod__);
 
   // redis cookie settings
   app.use( 
@@ -48,6 +48,7 @@ const main = async () => {
         secure: true, // might cause bugs(?) if this is true in dev
       },
       saveUninitialized: false,
+      // cookie values are encrypted with this secret key
       secret: "secret key change this later",
       resave: false,
     })
