@@ -132,9 +132,9 @@ export class UserResolver {
       }
     }
 
-    // @types/express-session: "1.17.x" removed the key string from SessionData interface
-    // they want us to explicitly declare expected types for this object
-    // manually adjusted node_module to include it again as a hacky way to resolve type error
+    // @types/express-session: "1.17.x" removed the key string from "SessionData" interface
+    // they want us to explicitly declare expected types for this the sessions obj
+    // I manually adjusted interface to include it again as a hacky way to resolve this type error
     req.session.userId = user.id; // stores 'userId' object in redis so we can access later
     
     return { user };
