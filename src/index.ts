@@ -1,7 +1,7 @@
 import 'reflect-metadata'; // typegraphql dependency (must be before importing typegraphql)
 import { MikroORM } from "@mikro-orm/core"
 import type { PostgreSqlDriver } from '@mikro-orm/postgresql'; // or any other driver package
-import { __prod__ } from "./constant"; // checks if we're in production
+import { COOKIE_NAME, __prod__ } from "./constant"; // checks if we're in production
 import mikroConfig from './mikro-orm.config';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
@@ -34,13 +34,13 @@ const main = async () => {
   // redis cookie settings
   app.use( 
     session({
-      name: 'userCookieID',
+      name: COOKIE_NAME,
       store: new RedisStore({ 
         client: redisClient,
         disableTouch: true, // dont refresh timer on each session interaction
       }),
       cookie: {
-        maxAge: 1000 * 60 * 60 * 24, // cookie will last a day
+        maxAge: 1000 * 60 * 60, // cookie will last for one hour
         httpOnly: true,
         // 'none' is required for cookies to work from one site to another (might be bad in prod)
         sameSite: "none", // this setting is related to csrf 

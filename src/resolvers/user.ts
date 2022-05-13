@@ -2,6 +2,7 @@ import { User } from "../entities/User";
 import { MyContext } from "../types";
 import { Arg, Mutation, Query, Resolver, Ctx, ObjectType, Field } from "type-graphql";
 import argon2 from 'argon2';
+import { COOKIE_NAME } from "../constant";
 
 @ObjectType()
 // potential error can be displayed on frontend
@@ -138,5 +139,21 @@ export class UserResolver {
     req.session.userId = user.id; // stores 'userId' object in redis so we can access later
     
     return { user };
+  }
+
+  // user logout
+  @Mutation(() => Boolean)
+  logout(
+    @Ctx() { req, res }: MyContext
+  ): Promise<Boolean> {
+    return new Promise(resolve => req.session.destroy(err => {
+      if (err) {
+        console.log(err);
+        resolve(false)
+        return;
+      }
+      res.clearCookie(COOKIE_NAME);
+      resolve(true)
+    }));
   }
 }
