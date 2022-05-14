@@ -43,14 +43,15 @@ const main = async () => {
         maxAge: 1000 * 60 * 60, // cookie will last for one hour
         httpOnly: true,
         // 'none' is required for cookies to work from one site to another (might be bad in prod)
-        sameSite: "none", // this setting is related to csrf 
+        // ie. set to 'lax' to test in localhost, set to 'none' to test in sandbox, 
+        sameSite: "lax", // this setting is related to csrf 
         // setting to true makes requests come from a non HTTPS protocol for some reason
-        secure: true, // might cause bugs(?) if this is true in dev
+        secure: __prod__, // might cause bugs(?) if this is true in dev
       },
-      saveUninitialized: false,
+      saveUninitialized: false, // save session cookie even if no properties were set
       // cookie values are encrypted with this secret key
       secret: "secret key change this later",
-      resave: false,
+      resave: false, // reset session with every request to server
     })
   );
 
