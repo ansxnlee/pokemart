@@ -1,37 +1,36 @@
-import { Item } from "../entities/Item";
+import { Product } from "../entities/Product";
 import { MyContext } from "src/types";
 import { Arg, Ctx, Int, Mutation, Query, Resolver } from "type-graphql";
 import { wrap } from "@mikro-orm/core";
 
 @Resolver()
-export class ItemResolver {
+export class ProductResolver {
   // get all items
-  @Query(() => [Item])
+  @Query(() => [Product])
   items(
     @Ctx() { em }: MyContext
-  ): Promise<Item []> {
-    return em.find(Item, {});
+  ): Promise<Product []> {
+    return em.find(Product, {});
   }
 
   // get item by id
-  @Query(() => Item, { nullable: true })
+  @Query(() => Product, { nullable: true })
   item(
     @Arg('id', () => Int) id: number,
     @Ctx() { em }: MyContext
-  ): Promise<Item | null> {
-    return em.findOne(Item, { id });
+  ): Promise<Product | null> {
+    return em.findOne(Product, { id });
   }
 
-  @Mutation(() => Item)
+  @Mutation(() => Product)
   async createItem(
     @Arg('name', () => String) name: string,
     @Arg('cost', () => Int) cost: number,
-    @Arg('description', () => String) description: string,
     @Ctx() { em }: MyContext
-  ): Promise<Item> {
+  ): Promise<Product> {
     // explicit transaction demarcation (begin, persist, rollback) in mikroORM
     await em.begin();
-    const item = new Item(name, cost, description)
+    const item = new Product(name, cost)
     try {
       em.persist(item);
       await em.commit();
@@ -42,21 +41,19 @@ export class ItemResolver {
     return item;
   }
 
-  @Mutation(() => Item)
+  @Mutation(() => Product)
   async updateItem(
     @Arg('id', () => Int) id: number,
     @Arg('name', () => String) name: string,
     @Arg('cost', () => Int) cost: number,
-    @Arg('description', () => String) description: string,
     @Ctx() { em }: MyContext
-  ): Promise<Item> {
+  ): Promise<Product> {
     await em.begin();
-    const item = await em.findOneOrFail(Item, { id });
+    const item = await em.findOneOrFail(Product, { id });
     // assign() seems to implicitly call the correct identity map?
     wrap(item).assign({
       name: name,
       cost: cost,
-      description: description
     });
 
     try {
@@ -74,7 +71,7 @@ export class ItemResolver {
     @Arg('id', () => Int) id: number,
     @Ctx() { em }: MyContext
   ): Promise<Boolean> {
-    const item = await em.findOneOrFail(Item, { id });
+    const item = await em.findOneOrFail(Product, { id });
     await em.remove(item).flush();
     return true;
   }

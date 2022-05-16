@@ -3,18 +3,19 @@ import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
 @Entity()
-export class User {
+export class Product {
   
   @Field()
   @PrimaryKey()
   id!: number;
-  
+
   @Field()
-  @Property({ type: 'text', unique: true })
-  username!: string;
-  
   @Property({ type: 'text' })
-  password!: string;
+  name!: string;
+
+  @Field()
+  @Property({ type: 'integer' })
+  cost!: number;
 
   @Field(() => String)
   @Property({ type: 'date' })
@@ -24,8 +25,8 @@ export class User {
   @Property({ type: 'date', onUpdate: () => new Date() })
   updated = new Date();
 
-  constructor(username: string, password: string) {
-    this.username = username;
-    this.password = password;
+  constructor(name: string, cost: number) {
+    this.name = name;
+    this.cost = cost;
   }
 }
