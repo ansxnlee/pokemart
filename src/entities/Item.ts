@@ -6,12 +6,13 @@ import { Product } from "./Product";
 @ObjectType()
 @Entity()
 export class Item {
+  @Field(() => Order)
+  @ManyToOne(() => Order, { primary: true, onDelete: 'cascade' })
+  order: Order;
   
-  @ManyToOne({ entity: () => Order, primary: true })
-  order!: Order;
-  
-  @ManyToOne({ entity: () => Product, primary: true })
-  product!: Product;
+  @Field(() => Product)
+  @ManyToOne(() => Product, { primary: true, onDelete: 'cascade' })
+  product: Product;
 
   @Field()
   @Property({ type: 'integer' })

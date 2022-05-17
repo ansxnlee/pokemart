@@ -5,25 +5,26 @@ import { wrap } from "@mikro-orm/core";
 
 @Resolver()
 export class ProductResolver {
-  // get all items
+  // get all products
   @Query(() => [Product])
-  items(
+  products(
     @Ctx() { em }: MyContext
   ): Promise<Product []> {
     return em.find(Product, {});
   }
 
-  // get item by id
+  // get product by id
   @Query(() => Product, { nullable: true })
-  item(
+  product(
     @Arg('id', () => Int) id: number,
     @Ctx() { em }: MyContext
   ): Promise<Product | null> {
     return em.findOne(Product, { id });
   }
 
+  // create product
   @Mutation(() => Product)
-  async createItem(
+  async importProduct(
     @Arg('name', () => String) name: string,
     @Arg('cost', () => Int) cost: number,
     @Ctx() { em }: MyContext
@@ -41,8 +42,9 @@ export class ProductResolver {
     return item;
   }
 
+  // update product by id
   @Mutation(() => Product)
-  async updateItem(
+  async updateProduct(
     @Arg('id', () => Int) id: number,
     @Arg('name', () => String) name: string,
     @Arg('cost', () => Int) cost: number,
@@ -66,8 +68,9 @@ export class ProductResolver {
     return item;
   }
 
+  // delete product by id
   @Mutation(() => Boolean)
-  async deleteItem(
+  async deleteProduct(
     @Arg('id', () => Int) id: number,
     @Ctx() { em }: MyContext
   ): Promise<Boolean> {

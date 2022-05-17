@@ -211,6 +211,7 @@
             "id"
           ],
           "referencedTableName": "public.user",
+          "deleteRule": "cascade",
           "updateRule": "cascade"
         }
       }
@@ -291,6 +292,7 @@
             "id"
           ],
           "referencedTableName": "public.order",
+          "deleteRule": "cascade",
           "updateRule": "cascade"
         },
         "item_product_id_foreign": {
@@ -303,6 +305,7 @@
             "id"
           ],
           "referencedTableName": "public.product",
+          "deleteRule": "cascade",
           "updateRule": "cascade"
         }
       }

@@ -1,6 +1,6 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20220516004147 extends Migration {
+export class Migration20220516223315 extends Migration {
 
   async up(): Promise<void> {
     this.addSql('create table "user" ("id" serial primary key, "username" text not null, "password" text not null, "created" timestamptz(0) not null, "updated" timestamptz(0) not null);');
@@ -13,10 +13,10 @@ export class Migration20220516004147 extends Migration {
     this.addSql('create table "item" ("order_id" int not null, "product_id" int not null, "quantity" int not null, "created" timestamptz(0) not null, "updated" timestamptz(0) not null);');
     this.addSql('alter table "item" add constraint "item_pkey" primary key ("order_id", "product_id");');
 
-    this.addSql('alter table "order" add constraint "order_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade;');
+    this.addSql('alter table "order" add constraint "order_user_id_foreign" foreign key ("user_id") references "user" ("id") on update cascade on delete cascade;');
 
-    this.addSql('alter table "item" add constraint "item_order_id_foreign" foreign key ("order_id") references "order" ("id") on update cascade;');
-    this.addSql('alter table "item" add constraint "item_product_id_foreign" foreign key ("product_id") references "product" ("id") on update cascade;');
+    this.addSql('alter table "item" add constraint "item_order_id_foreign" foreign key ("order_id") references "order" ("id") on update cascade on delete cascade;');
+    this.addSql('alter table "item" add constraint "item_product_id_foreign" foreign key ("product_id") references "product" ("id") on update cascade on delete cascade;');
   }
 
   async down(): Promise<void> {

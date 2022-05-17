@@ -39,12 +39,22 @@ export class UserResolver {
   }
 
 
-  // get all items
+  // get all users
   @Query(() => [User])
   users(
     @Ctx() { em }: MyContext
   ): Promise<User []> {
     return em.find(User, {});
+  }
+
+  // get detailed info on user id
+  @Query(() => User)
+  async user(
+    @Arg('username', () => String) username: string,
+    @Ctx() { em }: MyContext
+  ): Promise<User> {
+    const user = await em.findOne(User, { username }, { populate: ['orders', 'orders.items'] });
+    return user as User; // not sure why returned value is null
   }
 
   // create a user

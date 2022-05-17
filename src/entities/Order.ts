@@ -1,4 +1,4 @@
-import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
+import { Cascade, Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
 import { Field, ObjectType } from "type-graphql";
 import { Item } from "./Item";
 import { User } from "./User";
@@ -6,15 +6,16 @@ import { User } from "./User";
 @ObjectType()
 @Entity()
 export class Order {
-
   @Field()
   @PrimaryKey()
   id!: number;
   
-  @ManyToOne(() => User)
-  user!: User;
+  @Field(() => User)
+  @ManyToOne(() => User, { onDelete: 'cascade' })
+  user: User;
 
-  @OneToMany(() => Item, item => item.order)
+  @Field(() => [Item])
+  @OneToMany(() => Item, (item: Item) => item.order, { cascade: [Cascade.ALL] })
   items = new Collection<Item>(this);
 
   @Field(() => String)

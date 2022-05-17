@@ -9,6 +9,8 @@ import { buildSchema } from 'type-graphql';
 import { HelloResolver } from './resolvers/hello';
 import { ProductResolver } from './resolvers/product';
 import { UserResolver } from './resolvers/user';
+import { OrderResolver } from './resolvers/order';
+import { ItemResolver } from './resolvers/item';
 import { MyContext } from './types';
 
 const main = async () => {
@@ -67,7 +69,13 @@ const main = async () => {
   // apollo graphql setup
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, ProductResolver, UserResolver],
+      resolvers: [
+        HelloResolver, 
+        ProductResolver, 
+        UserResolver,
+        OrderResolver,
+        ItemResolver
+      ],
       validate: false
     }),
     context: ({ req, res }): MyContext => ({ em: orm.em.fork(), req, res }),
