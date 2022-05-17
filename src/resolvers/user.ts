@@ -3,15 +3,7 @@ import { MyContext } from "../types";
 import { Arg, Mutation, Query, Resolver, Ctx, ObjectType, Field } from "type-graphql";
 import argon2 from 'argon2';
 import { COOKIE_NAME } from "../constant";
-
-@ObjectType()
-// potential error can be displayed on frontend
-class FieldError {
-  @Field()
-  field: string;
-  @Field()
-  message: string;
-}
+import { FieldError } from '../util/FieldError';
 
 @ObjectType()
 class UserResponse {
@@ -54,7 +46,7 @@ export class UserResolver {
     @Ctx() { em }: MyContext
   ): Promise<User> {
     const user = await em.findOne(User, { username }, { populate: ['orders', 'orders.items'] });
-    return user as User; // not sure why returned value is null
+    return user as User; // not sure why user value is null
   }
 
   // create a user

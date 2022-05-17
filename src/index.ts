@@ -46,9 +46,10 @@ const main = async () => {
         httpOnly: true,
         // 'none' is required for cookies to work from one site to another (might be bad in prod)
         // ie. set to 'lax' to test in localhost, set to 'none' to test in sandbox, 
-        sameSite: "lax", // this setting is related to csrf 
+        sameSite: "none", // this setting is related to csrf 
         // setting to true makes requests come from a non HTTPS protocol for some reason
-        secure: __prod__, // might cause bugs(?) if this is true in dev
+        // set to 'true' to test in sandbox, 'false' in localhost
+        secure: !__prod__, // might cause bugs(?) if this is true in dev
       },
       saveUninitialized: false, // save session cookie even if no properties were set
       // cookie values are encrypted with this secret key

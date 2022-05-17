@@ -33,6 +33,24 @@
           "nullable": false,
           "mappedType": "text"
         },
+        "current_order_id": {
+          "name": "current_order_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "is_ordering": {
+          "name": "is_ordering",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "boolean"
+        },
         "created": {
           "name": "created",
           "type": "timestamptz(0)",

@@ -20,6 +20,14 @@ export class User {
   @OneToMany(() => Order, (order: Order) => order.user, { cascade: [Cascade.ALL] })
   orders = new Collection<Order>(this);
 
+  @Field()
+  @Property({ type: 'integer' })
+  currentOrderId: number = 0;
+
+  @Field()
+  @Property({type: 'boolean' })
+  isOrdering: boolean = false;
+
   @Field(() => String)
   @Property({ type: 'date' })
   created = new Date();

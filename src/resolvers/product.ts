@@ -31,15 +31,15 @@ export class ProductResolver {
   ): Promise<Product> {
     // explicit transaction demarcation (begin, persist, rollback) in mikroORM
     await em.begin();
-    const item = new Product(name, cost)
+    const product = new Product(name, cost)
     try {
-      em.persist(item);
+      em.persist(product);
       await em.commit();
     } catch(e) {
       await em.rollback();
       throw e;
     }
-    return item;
+    return product;
   }
 
   // update product by id
@@ -51,21 +51,21 @@ export class ProductResolver {
     @Ctx() { em }: MyContext
   ): Promise<Product> {
     await em.begin();
-    const item = await em.findOneOrFail(Product, { id });
+    const product = await em.findOneOrFail(Product, { id });
     // assign() seems to implicitly call the correct identity map?
-    wrap(item).assign({
+    wrap(product).assign({
       name: name,
       cost: cost,
     });
 
     try {
-      em.persist(item);
+      em.persist(product);
       await em.commit();
     } catch(e) {
       await em.rollback();
       throw e;
     }
-    return item;
+    return product;
   }
 
   // delete product by id
@@ -74,8 +74,8 @@ export class ProductResolver {
     @Arg('id', () => Int) id: number,
     @Ctx() { em }: MyContext
   ): Promise<Boolean> {
-    const item = await em.findOneOrFail(Product, { id });
-    await em.remove(item).flush();
+    const product = await em.findOneOrFail(Product, { id });
+    await em.remove(product).flush();
     return true;
   }
 }
