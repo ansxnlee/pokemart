@@ -1,6 +1,6 @@
 import { User } from "../entities/User";
 import { MyContext } from "../types";
-import { Arg, Mutation, Query, Resolver, Ctx, ObjectType, Field } from "type-graphql";
+import { Arg, Mutation, Query, Resolver, Ctx, ObjectType, Field, Int } from "type-graphql";
 import argon2 from 'argon2';
 import { COOKIE_NAME } from "../constant";
 import { FieldError } from '../util/FieldError';
@@ -157,5 +157,16 @@ export class UserResolver {
       res.clearCookie(COOKIE_NAME);
       resolve(true)
     }));
+  }
+
+  // delete user by id
+  @Mutation(() => Boolean)
+  async eregister(
+    @Arg('id', () => Int) id: number,
+    @Ctx() { em }: MyContext
+  ): Promise<UserResponse> {
+    const user = await em.findOneOrFail(User, id);
+    await em.remove(user).flush();
+    return { user };
   }
 }
