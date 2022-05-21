@@ -108,8 +108,26 @@
           "nullable": false,
           "mappedType": "integer"
         },
+        "item_id": {
+          "name": "item_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
         "name": {
           "name": "name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "name_eng": {
+          "name": "name_eng",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -125,6 +143,33 @@
           "primary": false,
           "nullable": false,
           "mappedType": "integer"
+        },
+        "effect": {
+          "name": "effect",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "text": {
+          "name": "text",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "sprite": {
+          "name": "sprite",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
         },
         "created": {
           "name": "created",

@@ -25,13 +25,26 @@ export class ProductResolver {
   // create product
   @Mutation(() => Product)
   async importProduct(
+    @Arg('itemId', () => Int) itemId: number,
     @Arg('name', () => String) name: string,
+    @Arg('nameEng', () => String) nameEng: string,
     @Arg('cost', () => Int) cost: number,
+    @Arg('effect', () => String) effect: string,
+    @Arg('text', () => String) text: string,
+    @Arg('sprite', () => String) sprite: string,
     @Ctx() { em }: MyContext
   ): Promise<Product> {
     // explicit transaction demarcation (begin, persist, rollback) in mikroORM
     await em.begin();
-    const product = new Product(name, cost)
+    const product = new Product(
+      itemId, 
+      name, 
+      nameEng,
+      cost,
+      effect,
+      text,
+      sprite
+    )
     try {
       em.persist(product);
       await em.commit();

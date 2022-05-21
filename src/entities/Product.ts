@@ -10,12 +10,32 @@ export class Product {
   id!: number;
 
   @Field()
+  @Property({ type: 'integer' })
+  itemId!: number;
+
+  @Field()
   @Property({ type: 'text' })
   name!: string;
 
   @Field()
+  @Property({ type: 'text' })
+  nameEng!: string;
+
+  @Field()
   @Property({ type: 'integer' })
   cost!: number;
+
+  @Field()
+  @Property({ type: 'text' })
+  effect!: string;
+
+  @Field()
+  @Property({ type: 'text' })
+  text!: string;
+
+  @Field()
+  @Property({ type: 'text' })
+  sprite!: string;
 
   @Field(() => Item)
   @OneToMany(() => Item, (item: Item) => item.product, { cascade: [Cascade.ALL] })
@@ -29,8 +49,21 @@ export class Product {
   @Property({ type: 'date', onUpdate: () => new Date() })
   updated = new Date();
 
-  constructor(name: string, cost: number) {
+  constructor(
+    itemId: number,
+    name: string, 
+    nameEng: string,
+    cost: number,
+    effect: string,
+    text: string,
+    sprite: string
+  ) {
+    this.itemId = itemId;
     this.name = name;
+    this.nameEng = nameEng;
     this.cost = cost;
+    this.effect = effect;
+    this.text = text;
+    this.sprite = sprite;
   }
 }
