@@ -32,6 +32,7 @@ export class ProductResolver {
     @Arg('effect', () => String) effect: string,
     @Arg('text', () => String) text: string,
     @Arg('sprite', () => String) sprite: string,
+    @Arg('category', () => String) category: string,
     @Ctx() { em }: MyContext
   ): Promise<Product> {
     // explicit transaction demarcation (begin, persist, rollback) in mikroORM
@@ -43,7 +44,8 @@ export class ProductResolver {
       cost,
       effect,
       text,
-      sprite
+      sprite,
+      category
     )
     try {
       em.persist(product);

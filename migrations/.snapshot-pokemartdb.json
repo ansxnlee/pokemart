@@ -171,6 +171,15 @@
           "nullable": false,
           "mappedType": "text"
         },
+        "category": {
+          "name": "category",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
         "created": {
           "name": "created",
           "type": "timestamptz(0)",

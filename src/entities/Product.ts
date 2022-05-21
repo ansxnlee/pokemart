@@ -37,6 +37,10 @@ export class Product {
   @Property({ type: 'text' })
   sprite!: string;
 
+  @Field()
+  @Property({ type: 'text' })
+  category!: string;
+
   @Field(() => Item)
   @OneToMany(() => Item, (item: Item) => item.product, { cascade: [Cascade.ALL] })
   items = new Collection<Item>(this);
@@ -56,7 +60,8 @@ export class Product {
     cost: number,
     effect: string,
     text: string,
-    sprite: string
+    sprite: string,
+    category: string
   ) {
     this.itemId = itemId;
     this.name = name;
@@ -65,5 +70,6 @@ export class Product {
     this.effect = effect;
     this.text = text;
     this.sprite = sprite;
+    this.category = category;
   }
 }
