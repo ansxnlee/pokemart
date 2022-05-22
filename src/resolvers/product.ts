@@ -8,9 +8,13 @@ export class ProductResolver {
   // get all products
   @Query(() => [Product])
   products(
+    @Arg("category", { defaultValue: '' }) category: string,
     @Ctx() { em }: MyContext
   ): Promise<Product []> {
-    return em.find(Product, {});
+    if (!category) {
+      return em.find(Product, {});
+    }
+    return em.find(Product, { category: category });
   }
 
   // get product by id
