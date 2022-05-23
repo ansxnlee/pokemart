@@ -26,6 +26,15 @@ export class ProductResolver {
     return em.findOne(Product, { id });
   }
 
+  // get product by name
+  @Query(() => Product, { nullable: true })
+  productName(
+    @Arg('nameEng', () => String) nameEng: string,
+    @Ctx() { em }: MyContext
+  ): Promise<Product | null> {
+    return em.findOne(Product, { nameEng });
+  }
+
   // create product
   @Mutation(() => Product)
   async importProduct(
