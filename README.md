@@ -16,14 +16,16 @@ User passwords are hashed with [argon2](https://github.com/ranisalt/node-argon2)
 
 ## Showcase
 
+Some diagrams I made in ms paint showing how I designed the backend.
+
 ![erd](./public/md/erd.png "entity relation diagram")
 
 ![architecture](./public/md/architecture.png "architecture for shopping cart system")
 
 ## Additional development setup
 
-- postgresql or another mikro-orm supported database is installed with mikro-orm-config.ts configured appropriately
-- redis is installed
+- postgresql or another mikro-orm supported database needs to be installed with 'mikro-orm-config.ts' configured
+- redis also needs to be installed for the backend to work
 
 ## Importing PRODUCTS.json into postgres
 
