@@ -290,6 +290,15 @@
     },
     {
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": true,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
         "order_id": {
           "name": "order_id",
           "type": "int",
@@ -344,10 +353,9 @@
         {
           "keyName": "item_pkey",
           "columnNames": [
-            "order_id",
-            "product_id"
+            "id"
           ],
-          "composite": true,
+          "composite": false,
           "primary": true,
           "unique": true
         }

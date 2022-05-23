@@ -67,6 +67,7 @@ export class ItemResolver {
     if (user.isOrdering == false) {
       await em.begin();
       // logic here is identical to newOrder resolver
+      // new order is created for user
       const order = new Order(userId);
       try {
         em.persist(order);

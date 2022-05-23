@@ -40,6 +40,35 @@ export class OrderResolver {
     return order as Order;
   }
 
+  // get user's current order
+  @Query(() => OrderResponse)
+  async userOrder(
+    @Ctx() { em, req }: MyContext
+  ): Promise<OrderResponse> {
+    const userId = req.session.userId; // find user in redis cache or null
+
+    // check if user is logged
+    if (!userId) {
+      return {
+        errors: [
+          {
+            field: 'user',
+            message: 'you must be logged to add items'
+          },
+        ]
+      }
+    }
+
+    const user = await em.findOneOrFail(User, userId);
+
+    const order = await em.findOne(
+      Order, 
+      user.currentOrderId, 
+      { populate: ['items', 'user', 'items.product'] }
+    );
+    return { order };
+  }
+
   // this resolver is never called in the app and is only used for testing
   @Mutation(() => OrderResponse)
   async newOrder(
