@@ -1,6 +1,6 @@
 ## pokemart
 
-Backend for [pokeweb](https://github.com/ansxnlee/pokeweb), for an E-commerce web app.
+Backend for [pokeweb](https://github.com/ansxnlee/pokeweb), an E-commerce web app.
 
 ## Technologies used
 
